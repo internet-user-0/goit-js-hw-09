@@ -1,4 +1,5 @@
 import flatpickr from "flatpickr";
+import Notiflix from 'notiflix';
 import "flatpickr/dist/flatpickr.min.css";
 
 
@@ -28,13 +29,25 @@ flatpickr(refs.inputEl, options);
 
 
 function onClose(selectedDates) {
-      if (selectedDates[0] < options.defaultDate) {
-         window.alert("Please choose a date in the future");
-      } else  {
-         refs.startBtn.disabled = false;
-         selectedTime = selectedDates[0];
-      };
+   if (selectedDates[0] < options.defaultDate) {
+   Notiflix.Confirm.show(
+      'Notiflix Confirm',
+      'Please choose a date in the future',
+      'Ok',
+      function okCb() {
+         alert('Thanks you.');
+      },
+      {
+      width: '320px',
+      borderRadius: '8px',
+      },
+   );} else {
+      refs.startBtn.disabled = false;
+      selectedTime = selectedDates[0];
+   }
 };
+
+
 function timeInterval(date) {
    intervalId = setInterval(() => {
       const currentTime = Date.now();
