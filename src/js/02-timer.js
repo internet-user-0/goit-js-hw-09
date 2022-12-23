@@ -25,6 +25,7 @@ const options = {
    onClose,
 }
 
+
 flatpickr(refs.inputEl, options);
 
 
@@ -48,6 +49,13 @@ function onClose(selectedDates) {
 };
 
 
+function onStartBtn() {
+   refs.startBtn.disabled = true;
+   refs.inputEl.disabled = true;
+   timeInterval(selectedTime); 
+};
+
+
 function timeInterval(date) {
    intervalId = setInterval(() => {
       const currentTime = Date.now();
@@ -62,14 +70,8 @@ function timeInterval(date) {
    }, 1000); 
 };
 
-function onStartBtn() {
-   refs.startBtn.disabled = true;
-   refs.inputEl.disabled = true;
-   timeInterval(selectedTime); 
-};
-
 function addLeadingZero(value) {
-   return String(value).padStart(2, '0');
+   return String(value).padStart(2, '00');
 };
 
 function convertMs(ms) {
@@ -83,12 +85,16 @@ function convertMs(ms) {
    const minutes = addLeadingZero(Math.floor(((ms % day) % hour) / minute));
    const seconds = addLeadingZero(Math.floor((((ms % day) % hour) % minute) / second));
 
-   return { days, hours, minutes, seconds };
+   return [days, hours, minutes, seconds];
 };
 
-function updateBodyTime({ days, hours, minutes, seconds }) {
-   refs.valueTime[0].textContent = days; 
-   refs.valueTime[1].textContent = hours; 
-   refs.valueTime[2].textContent = minutes; 
-   refs.valueTime[3].textContent = seconds;   
+
+function updateBodyTime(timeValue) {
+timeValue.forEach((time, index) => {
+   if (time != "-1") {
+      refs.valueTime[index].textContent = time;
+      return;
+   }
+   refs.valueTime[index].textContent = "00";
+});
 };
