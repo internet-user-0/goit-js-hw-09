@@ -63,7 +63,7 @@ function timeInterval(date) {
       const time = convertMs(countdownTime);
       updateBodyTime(time);
 
-      if (countdownTime <= 0)  {
+      if (countdownTime <= 1000)  {
             refs.inputEl.disabled = false;
             clearInterval(intervalId);
       }
@@ -71,7 +71,7 @@ function timeInterval(date) {
 };
 
 function addLeadingZero(value) {
-   return String(value).padStart(2, '00');
+   return String(value).padStart(2, '0');
 };
 
 function convertMs(ms) {
@@ -91,10 +91,6 @@ function convertMs(ms) {
 
 function updateBodyTime(timeValue) {
 timeValue.forEach((time, index) => {
-   if (time != "-1") {
-      refs.valueTime[index].textContent = time;
-      return;
-   }
-   refs.valueTime[index].textContent = "00";
+   refs.valueTime[index].textContent = time;
 });
 };
